@@ -1,0 +1,123 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role and subscription details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 120 },
+        "email": { "type": "string", "maxLength": 150 },
+        "role": { "type": "string", "enum": ["student", "teacher", "admin"] },
+        "subscriptionStatus": { "type": "string", "enum": ["free", "premium"] },
+        "subscriptionExpiresAt": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "name", "email", "role", "subscriptionStatus", "createdAt"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Trusted admin record used for role-based access control",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 150 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["uid", "email"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "Academic subject / module",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 200 },
+        "code": { "type": "string", "maxLength": 50 },
+        "semester": { "type": "string", "enum": ["S1", "S2"] },
+        "description": { "type": "string", "maxLength": 500 },
+        "icon": { "type": "string", "maxLength": 50 },
+        "colorTheme": { "type": "string", "maxLength": 50 },
+        "lessonsCount": { "type": "number" },
+        "pdfsCount": { "type": "number" },
+        "quizzesCount": { "type": "number" }
+      },
+      "required": ["id", "title", "code", "semester"]
+    },
+    "Lesson": {
+      "title": "Lesson",
+      "description": "Academic lesson and study material",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "subjectId": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 250 },
+        "excerpt": { "type": "string", "maxLength": 500 },
+        "quickSummary": { "type": "string", "maxLength": 1000 },
+        "content": { "type": "string", "maxLength": 100000 },
+        "readingTimeMinutes": { "type": "number" },
+        "isPremium": { "type": "boolean" },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "subjectId", "title", "isPremium"]
+    },
+    "Summary": {
+      "title": "Summary",
+      "description": "Concise review summary and key points",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "subjectId": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 250 },
+        "excerpt": { "type": "string", "maxLength": 500 },
+        "keyPoints": { "type": "array" },
+        "fullSummary": { "type": "string", "maxLength": 50000 },
+        "content": { "type": "string", "maxLength": 50000 },
+        "isPremium": { "type": "boolean" },
+        "downloadsCount": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "subjectId", "title", "isPremium"]
+    },
+    "StudentProgress": {
+      "title": "StudentProgress",
+      "description": "Student tracking for completed lessons and quiz results",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "completedLessons": { "type": "array" },
+        "favoriteLessons": { "type": "array" },
+        "favoriteSummaries": { "type": "array" },
+        "quizResults": { "type": "array" },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["userId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and account settings"
+    },
+    "/admins/{userId}": {
+      "schema": "Admin",
+      "description": "Admin directory for role enforcement"
+    },
+    "/subjects/{subjectId}": {
+      "schema": "Subject",
+      "description": "Curriculum subjects"
+    },
+    "/lessons/{lessonId}": {
+      "schema": "Lesson",
+      "description": "Curriculum lessons and study material"
+    },
+    "/summaries/{summaryId}": {
+      "schema": "Summary",
+      "description": "Revision summaries"
+    },
+    "/progress/{userId}": {
+      "schema": "StudentProgress",
+      "description": "User progress and activity"
+    }
+  }
+}

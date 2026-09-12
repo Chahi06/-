@@ -1,0 +1,8 @@
+{
+  "name": "Remix أستاذي | سنة أولى تعليم ابتدائي",
+  "description": "منصة تعليمية متكاملة لطلبة السنة الأولى أستاذ التعليم الابتدائي - دروس، ملخصات، اختبارات واشتراكات",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
